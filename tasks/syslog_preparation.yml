@@ -1,0 +1,21 @@
+---
+- name: Create mesos log dir with user syslog
+  file: path={{mesos_log_location}} state=directory owner=syslog group=adm mode=755
+
+- set_fact: program_name="mesos-master"
+
+- name: Forward logs from mesos from syslog to log files
+  template: src=mesos-rsyslog.conf.j2 dest=/etc/rsyslog.d/mesos-master.conf owner=root group=root mode=644
+  when: mesos_install_mode == "master" or mesos_install_mode == "master-slave"
+  register: rsyslog_master
+
+- set_fact: program_name="mesos-slave"
+
+- name: Forward logs from mesos from syslog to log files
+  template: src=mesos-rsyslog.conf.j2 dest=/etc/rsyslog.d/mesos-slave.conf owner=root group=root mode=644
+  when: mesos_install_mode == "slave" or mesos_install_mode == "master-slave"
+  register: rsyslog_slave
+
+- name: Restart rsyslog if entry was changed
+  service: name=rsyslog state=restarted
+  when: rsyslog_master.changed or rsyslog_slave.changed
