@@ -16,6 +16,7 @@ mesos_ip: "{{ansible_default_ipv4.address}}"
 mesos_hostname: "{{ ansible_hostname }}"
 mesos_master_port: "5050"
 mesos_slave_port: "5051"
+mesos_enable_syslog_logging: True
 mesos_log_location: "/var/log/mesos"
 mesos_ulimit: "-n 8192"
 mesos_work_dir: "/var/mesos"
@@ -25,7 +26,6 @@ zookeeper_hostnames: "{{ mesos_hostname }}:{{ zookeeper_client_port }}"
 mesos_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/mesos"
 mesos_owner: root
 mesos_group: root
-mesos_enable_syslog_logging: true
 
 # Containerizer
 mesos_containerizers: "mesos"
