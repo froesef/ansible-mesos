@@ -2,6 +2,9 @@
 # Here we are using the debian package if debian
 - include_vars: "{{ ansible_os_family }}.yml"
 
+- include: syslog_preparation.yml
+  when: mesos_enable_syslog_logging
+
 - include: common.yml
 
 # Here we are using the debian package if debian

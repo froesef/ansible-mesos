@@ -1,0 +1,3 @@
+if $programname == '{{ program_name }}' then {
+  action(type="omfile" file="{{ mesos_log_location }}/{{ program_name }}.log")
+}
